@@ -4,16 +4,19 @@ from environs import Env
 
 
 def predict_rub_salary_for_superjob(vacancy):
+        
+        payment_from = vacancy['payment_from']
+        payment_to = vacancy['payment_to']
 
         if vacancy['currency'] != 'rub':
             return None
         else:
-            if vacancy['payment_from'] and vacancy['payment_to']:
-                return vacancy['payment_to']  - vacancy['payment_from']
-            elif vacancy['payment_from']:
-                return vacancy['payment_from']*1.2
-            elif vacancy['payment_to']:
-                return vacancy['payment_to']*0.8
+            if payment_from and payment_to:
+                return payment_to  - payment_from
+            elif payment_from:
+                return payment_from*1.2
+            elif payment_to:
+                return payment_to*0.8
 
 def sj_vacancies_stats(prog_languages, sj_secret_key):
 
@@ -69,16 +72,18 @@ def sj_vacancies_stats(prog_languages, sj_secret_key):
 def predict_rub_salary_for_hh(vacancy):
 
     vacancy_salary = vacancy['salary']
+    salary_from = vacancy_salary['from']
+    salary_to = vacancy_salary['to']
 
     if not vacancy_salary or vacancy_salary['currency'] != 'RUR':
         return None
     else:
-        if vacancy_salary['from'] and vacancy_salary['to']:
-            return vacancy_salary['to'] - vacancy_salary['from']
+        if salary_from and salary_to:
+            return salary_to - salary_from
         elif vacancy_salary['from']:
-            return vacancy_salary['from']*1.2
-        elif vacancy_salary['to']:
-            return vacancy_salary['to']*0.8
+            return salary_from*1.2
+        elif salary_to:
+            return salary_to*0.8
  
 def hh_vacancies_stats(prog_languages):
 
