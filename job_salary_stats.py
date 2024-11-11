@@ -50,9 +50,11 @@ def sj_vacancies_stats(prog_languages, sj_secret_key):
 
                 for vacancy in vacancies['objects']:
                     
-                    if predict_rub_salary_for_superjob(vacancy):
+                    salary = predict_rub_salary_for_superjob(vacancy)
+
+                    if salary:
                         number_salary+=1
-                        all_salary+=int(predict_rub_salary_for_superjob(vacancy))
+                        all_salary+=int(salary)
 
                 page-=1
 
@@ -109,9 +111,11 @@ def hh_vacancies_stats(prog_languages):
 
             for vacancy in vacancies['items']:
                 
-                if predict_rub_salary_for_hh(vacancy):
+                salary = predict_rub_salary_for_hh(vacancy)
+
+                if salary:
                     number_salary+=1
-                    all_salary+=int(predict_rub_salary_for_hh(vacancy))
+                    all_salary+=int(salary)
 
             page-=1
 
