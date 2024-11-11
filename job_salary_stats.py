@@ -15,7 +15,7 @@ def predict_rub_salary_for_superjob(vacancy):
             elif vacancy['payment_to']:
                 return vacancy['payment_to']*0.8
 
-def sj_vacancies_stats(prog_languages):
+def sj_vacancies_stats(prog_languages, sj_secret_key):
 
         languages_and_vacancies = {}
         sj_url = 'https://api.superjob.ru/2.0/vacancies'
@@ -50,7 +50,7 @@ def sj_vacancies_stats(prog_languages):
 
                 for vacancy in vacancies['objects']:
                     
-                    if predict_rub_salary_for_superjob(vacancy) != None:
+                    if predict_rub_salary_for_superjob(vacancy):
                         number_salary+=1
                         all_salary+=int(predict_rub_salary_for_superjob(vacancy))
 
@@ -109,7 +109,7 @@ def hh_vacancies_stats(prog_languages):
 
             for vacancy in vacancies['items']:
                 
-                if predict_rub_salary_for_hh(vacancy) != None:
+                if predict_rub_salary_for_hh(vacancy):
                     number_salary+=1
                     all_salary+=int(predict_rub_salary_for_hh(vacancy))
 
@@ -133,7 +133,7 @@ def hh_vacanies_stats_table(prog_languages):
 
     return AsciiTable(vacansies_statistics, 'HeadHunter Moscow').table
 
-def sj_vacancies_stats_table(prog_languages, sj_secret_key):
+def sj_vacancies_stats_table(prog_languages):
 
     vacansies_statistics = [['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']]
 
