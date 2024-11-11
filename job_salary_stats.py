@@ -20,7 +20,6 @@ def predict_rub_salary_for_superjob(vacancy):
 
 def sj_vacancies_stats(prog_languages, sj_secret_key):
 
-        languages_and_vacancies = {}
         sj_url = 'https://api.superjob.ru/2.0/vacancies'
 
         for language in prog_languages:
@@ -62,10 +61,12 @@ def sj_vacancies_stats(prog_languages, sj_secret_key):
                 page-=1
 
             avg_salary = all_salary // number_salary
-            
-            languages_and_vacancies[language]['vacancies_found'] = all_vacancies_number
-            languages_and_vacancies[language]['vacancies_processed'] = number_salary
-            languages_and_vacancies[language]['average_salary'] = avg_salary
+
+            languages_and_vacancies = {
+                'vacancies_found': all_vacancies_number,
+                'vacancies_processed': number_salary,
+                'average_salary': avg_salary
+            }
 
         return languages_and_vacancies
 
@@ -87,7 +88,6 @@ def predict_rub_salary_for_hh(vacancy):
  
 def hh_vacancies_stats(prog_languages):
 
-    languages_and_vacancies = {}
     hh_url = 'https://api.hh.ru/vacancies/'
 
     for language in prog_languages:
@@ -125,10 +125,12 @@ def hh_vacancies_stats(prog_languages):
             page-=1
 
         avg_salary = all_salary // number_salary
-        
-        languages_and_vacancies[language]['vacancies_found'] = all_vacancies_number
-        languages_and_vacancies[language]['vacancies_processed'] = number_salary
-        languages_and_vacancies[language]['average_salary'] = avg_salary
+
+        languages_and_vacancies = {
+            'vacancies_found': all_vacancies_number,
+            'vacancies_processed': number_salary,
+            'average_salary': avg_salary
+        }
 
     return languages_and_vacancies
 
