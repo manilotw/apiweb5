@@ -60,7 +60,10 @@ def sj_vacancies_stats(prog_languages, sj_secret_key):
 
                 page-=1
 
+        if number_salary > 0:
             avg_salary = all_salary // number_salary
+        else:
+            avg_salary = 0
 
             languages_and_vacancies = {
                 'vacancies_found': all_vacancies_number,
@@ -124,7 +127,10 @@ def hh_vacancies_stats(prog_languages):
 
             page-=1
 
-        avg_salary = all_salary // number_salary
+        if number_salary > 0:
+            avg_salary = all_salary // number_salary
+        else:
+            avg_salary = 0
 
         languages_and_vacancies = {
             'vacancies_found': all_vacancies_number,
