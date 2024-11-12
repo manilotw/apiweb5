@@ -18,7 +18,7 @@ def predict_rub_salary_for_superjob(vacancy):
             elif payment_to:
                 return payment_to*0.8
 
-def sj_vacancies_stats(prog_languages, sj_secret_key):
+def get_sj_vacancies_stats(prog_languages, sj_secret_key):
 
         sj_url = 'https://api.superjob.ru/2.0/vacancies'
 
@@ -89,7 +89,7 @@ def predict_rub_salary_for_hh(vacancy):
         elif salary_to:
             return salary_to*0.8
  
-def hh_vacancies_stats(prog_languages):
+def get_hh_vacancies_stats(prog_languages):
 
     hh_url = 'https://api.hh.ru/vacancies/'
 
@@ -140,21 +140,21 @@ def hh_vacancies_stats(prog_languages):
 
     return languages_and_vacancies
 
-def hh_vacanies_stats_table(prog_languages):
+def get_hh_vacancies_stats_table(prog_languages):
     
     vacansies_statistics = [['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']]
 
-    for language, statistics in hh_vacancies_stats(prog_languages).items():
+    for language, statistics in get_hh_vacancies_stats(prog_languages).items():
         row = [language, statistics['vacancies_found'], statistics['vacancies_processed'], statistics['average_salary']]
         vacansies_statistics.append(row)
 
     return AsciiTable(vacansies_statistics, 'HeadHunter Moscow').table
 
-def sj_vacancies_stats_table(prog_languages):
+def get_sj_vacancies_stats_table(prog_languages):
 
     vacansies_statistics = [['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']]
 
-    for language, statistics in sj_vacancies_stats(prog_languages).items():
+    for language, statistics in get_sj_vacancies_stats(prog_languages).items():
         row = [language, statistics['vacancies_found'], statistics['vacancies_processed'], statistics['average_salary']]
         vacansies_statistics.append(row)
 
@@ -169,9 +169,9 @@ def main():
 
     sj_secret_key = env.str('SJ_SECRET_JEY')
 
-    print(hh_vacanies_stats_table(prog_languages))
+    print(get_hh_vacancies_stats_table(prog_languages))
     print()
-    print(sj_vacancies_stats_table(prog_languages, sj_secret_key))
+    print(get_sj_vacancies_stats_table(prog_languages, sj_secret_key))
 
 if __name__ == '__main__':
     main()
