@@ -3,20 +3,26 @@ from terminaltables import AsciiTable
 from environs import Env
 
 
+def calculate_rub_salary(payment_from, payment_to, currency):
+    if currency != 'rub' or currency != 'RUR':
+        return None
+    
+    if payment_from and payment_to:
+        return payment_to - payment_from
+    elif payment_from:
+        return payment_from * 1.2
+    elif payment_to:
+        return payment_to * 0.8
+    
+    return None
+
 def predict_rub_salary_for_sj(vacancy):
         
-        payment_from = vacancy['payment_from']
-        payment_to = vacancy['payment_to']
+    payment_from = vacancy['payment_from']
+    payment_to = vacancy['payment_to']
+    currency = vacancy['currency'] 
 
-        if vacancy['currency'] != 'rub':
-            return None
-        else:
-            if payment_from and payment_to:
-                return payment_to  - payment_from
-            elif payment_from:
-                return payment_from*1.2
-            elif payment_to:
-                return payment_to*0.8
+    return calculate_rub_salary(payment_from, payment_to, currency)
 
 def get_sj_vacancies_stats(prog_languages):
     sj_url = 'https://api.superjob.ru/2.0/vacancies/'
@@ -70,16 +76,9 @@ def predict_rub_salary_for_hh(vacancy):
     vacancy_salary = vacancy['salary']
     salary_from = vacancy_salary['from']
     salary_to = vacancy_salary['to']
+    currency = vacancy_salary['currency']
 
-    if not vacancy_salary or vacancy_salary['currency'] != 'RUR':
-        return None
-    else:
-        if salary_from and salary_to:
-            return salary_to - salary_from
-        elif vacancy_salary['from']:
-            return salary_from*1.2
-        elif salary_to:
-            return salary_to*0.8
+    return calculate_rub_salary(salary_from, salary_to, currency)
  
 def get_hh_vacancies_stats(prog_languages):
 
