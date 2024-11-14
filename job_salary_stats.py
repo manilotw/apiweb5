@@ -4,7 +4,7 @@ from environs import Env
 
 
 def calculate_rub_salary(payment_from, payment_to, currency):
-    if currency != 'rub' or currency != 'RUR':
+    if currency not in ['RUR', 'rub']:
         return None
     
     if payment_from and payment_to:
@@ -24,7 +24,7 @@ def predict_rub_salary_for_sj(vacancy):
 
     return calculate_rub_salary(payment_from, payment_to, currency)
 
-def get_sj_vacancies_stats(prog_languages):
+def get_sj_vacancies_stats(prog_languages, sj_secret_key):
     sj_url = 'https://api.superjob.ru/2.0/vacancies/'
     languages_and_vacancies = {}
 
@@ -37,6 +37,11 @@ def get_sj_vacancies_stats(prog_languages):
         languages_and_vacancies[language] = {}
 
         while True:
+
+            headers = {
+                    'X-Api-App-Id': sj_secret_key
+                }
+            
             params = {
                 'keywords': 'программист ' + language,
                 'town': 'Москва',
@@ -44,7 +49,7 @@ def get_sj_vacancies_stats(prog_languages):
                 'count': per_page
             }
 
-            response = requests.get(sj_url, params=params)
+            response = requests.get(sj_url,headers=headers, params=params)
             response.raise_for_status()
             vacancies = response.json()
 
@@ -74,9 +79,13 @@ def get_sj_vacancies_stats(prog_languages):
 def predict_rub_salary_for_hh(vacancy):
 
     vacancy_salary = vacancy['salary']
-    salary_from = vacancy_salary['from']
-    salary_to = vacancy_salary['to']
-    currency = vacancy_salary['currency']
+
+    if vacancy_salary:
+        salary_from = vacancy_salary['from']
+        salary_to = vacancy_salary['to']
+        currency = vacancy_salary['currency']
+    else:
+        return None
 
     return calculate_rub_salary(salary_from, salary_to, currency)
  
@@ -137,7 +146,12 @@ def build_hh_vacancies_stats(prog_languages):
 
     return vacansies_statistics
 
-def get_hh_vacancies_stats_table(vacansies_statistics):
+def get_hh_vacancies_stats_table(prog_languages):
+    vacansies_statistics = [['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']]
+
+    for language, statistics in get_hh_vacancies_stats(prog_languages).items():
+        row = [language, statistics['vacancies_found'], statistics['vacancies_processed'], statistics['average_salary']]
+        vacansies_statistics.append(row)
 
     return AsciiTable(vacansies_statistics, 'HeadHunter Moscow').table
 
@@ -151,7 +165,12 @@ def build_sj_vacancies_stats(prog_languages):
 
     return vacansies_statistics
 
-def get_sj_vacancies_stats_table(vacansies_statistics):
+def get_sj_vacancies_stats_table(prog_languages, sj_secret_key):
+    vacansies_statistics = [['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']]
+
+    for language, statistics in get_sj_vacancies_stats(prog_languages, sj_secret_key).items():
+        row = [language, statistics['vacancies_found'], statistics['vacancies_processed'], statistics['average_salary']]
+        vacansies_statistics.append(row)
 
     return AsciiTable(vacansies_statistics, 'SuperJob Moscow').table
 
