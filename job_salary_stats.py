@@ -146,15 +146,6 @@ def build_hh_vacancies_stats(prog_languages):
 
     return vacansies_statistics
 
-def get_hh_vacancies_stats_table(prog_languages):
-    vacansies_statistics = [['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']]
-
-    for language, statistics in get_hh_vacancies_stats(prog_languages).items():
-        row = [language, statistics['vacancies_found'], statistics['vacancies_processed'], statistics['average_salary']]
-        vacansies_statistics.append(row)
-
-    return AsciiTable(vacansies_statistics, 'HeadHunter Moscow').table
-
 def build_sj_vacancies_stats(prog_languages):
 
     vacansies_statistics = [['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']]
@@ -165,14 +156,22 @@ def build_sj_vacancies_stats(prog_languages):
 
     return vacansies_statistics
 
-def get_sj_vacancies_stats_table(prog_languages, sj_secret_key):
+def get_list_stats(vacancies_stats) -> list:
     vacansies_statistics = [['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']]
 
-    for language, statistics in get_sj_vacancies_stats(prog_languages, sj_secret_key).items():
+    for language, statistics in vacancies_stats.items():
         row = [language, statistics['vacancies_found'], statistics['vacancies_processed'], statistics['average_salary']]
         vacansies_statistics.append(row)
 
-    return AsciiTable(vacansies_statistics, 'SuperJob Moscow').table
+    return vacansies_statistics
+
+def get_sj_vacancies_stats_table(prog_languages, sj_secret_key):
+
+    return AsciiTable(get_list_stats(get_sj_vacancies_stats(prog_languages, sj_secret_key)), 'SuperJob Moscow').table
+
+def get_hh_vacancies_stats_table(prog_languages):
+
+    return AsciiTable(get_list_stats(get_hh_vacancies_stats(prog_languages)), 'HeadHunter Moscow').table
 
 def main():
 
