@@ -101,11 +101,11 @@ def get_hh_vacancies_stats(prog_languages):
         number_salary = 0
 
         languages_and_vacancies[language] = {}
-
+        area = 1
         while True:
             params = {
                 'text': 'программист ' + language,
-                'area': '1',  
+                'area': area,  
                 'page': page,
                 'per_page': per_page
             }
