@@ -145,7 +145,7 @@ def get_hh_vacancies_stats(prog_languages):
 
     return vacansies_statistics
 
-def get_list_stats(vacancies_stats) -> list:
+def get_stats(vacancies_stats) -> list:
     vacansies_statistics = [['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']]
 
     for language, statistics in vacancies_stats.items():
