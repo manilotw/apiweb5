@@ -137,14 +137,6 @@ def get_hh_vacancies_stats(prog_languages):
 
     return languages_and_vacancies
 
-    vacansies_statistics = [['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']]
-
-    for language, statistics in get_hh_vacancies_stats(prog_languages).items():
-        row = [language, statistics['vacancies_found'], statistics['vacancies_processed'], statistics['average_salary']]
-        vacansies_statistics.append(row)
-
-    return vacansies_statistics
-
 def get_stats(vacancies_stats) -> list:
     vacansies_statistics = [['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']]
 
