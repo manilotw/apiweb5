@@ -80,12 +80,13 @@ def predict_rub_salary_for_hh(vacancy):
 
     vacancy_salary = vacancy['salary']
 
-    if vacancy_salary:
-        salary_from = vacancy_salary['from']
-        salary_to = vacancy_salary['to']
-        currency = vacancy_salary['currency']
-    else:
+    if not vacancy_salary:
         return None
+    
+    salary_from = vacancy_salary['from']
+    salary_to = vacancy_salary['to']
+    currency = vacancy_salary['currency']
+        
 
     return calculate_rub_salary(salary_from, salary_to, currency)
  
