@@ -154,14 +154,6 @@ def get_stats(vacancies_stats) -> list:
 
     return vacansies_statistics
 
-def get_sj_vacancies_stats_table(prog_languages, sj_secret_key):
-
-    return AsciiTable(get_list_stats(get_sj_vacancies_stats(prog_languages, sj_secret_key)), 'SuperJob Moscow').table
-
-def get_hh_vacancies_stats_table(prog_languages):
-
-    return AsciiTable(get_list_stats(get_hh_vacancies_stats(prog_languages)), 'HeadHunter Moscow').table
-
 def main():
 
     prog_languages = ['Python', 'Java', 'Javascript']
@@ -171,9 +163,9 @@ def main():
 
     sj_secret_key = env.str('SJ_SECRET_JEY')
 
-    print(get_hh_vacancies_stats_table(prog_languages))
+    print(AsciiTable(get_stats(get_hh_vacancies_stats(prog_languages)), 'HeadHunter Moscow').table)
     print()
-    print(get_sj_vacancies_stats_table(prog_languages, sj_secret_key))
+    print(AsciiTable(get_stats(get_sj_vacancies_stats(prog_languages, sj_secret_key)), 'SuperJob Moscow').table)
 
 if __name__ == '__main__':
     main()
